@@ -1,0 +1,30 @@
+.info {
+  max-width: 508px;
+  color: #333;
+  line-height: 2;
+
+  &__title {
+    line-height: 1.5;
+    font-size: 24px;
+  }
+
+  &__list {
+    margin-bottom: 25px;
+  }
+
+  &__item {
+    padding-left: 23px;
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 13px;
+      left: 6px;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background-color: #b7280f;
+    }
+  }
+}

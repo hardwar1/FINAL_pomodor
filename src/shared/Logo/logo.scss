@@ -1,0 +1,10 @@
+.logo {
+  display: inline-block;
+
+  &__img {
+    width: 205px;
+    height: 40px;
+    object-fit: contain;
+    object-position: left center;
+  }
+}

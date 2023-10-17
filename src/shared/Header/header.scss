@@ -1,0 +1,11 @@
+.header {
+  box-shadow: 0 10px 63px 0 rgba(0, 0, 0, 0.07);
+  
+  &__inner {
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--white);
+  }
+}

@@ -1,0 +1,39 @@
+.taskList {
+  &__list {
+    margin-bottom: 10px;
+  }
+
+  &__item {
+    border-top: 1px solid #e4e4e4;
+    padding: 12px 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    line-height: 25px;
+    font-weight: 300;
+
+    &:last-child {
+      border-bottom: 1px solid #e4e4e4;
+    }
+  }
+
+  &__timeCount {
+    min-width: 25px;
+    height: 25px;
+    display: flex;
+    justify-content: center;
+    border-radius: 50%;
+    border: 1px solid #c4c4c4;
+    margin-top: -2px;
+  }
+
+  &__menuBtn {
+    margin-left: auto;
+    height: 30px;
+  }
+
+  &__total {
+    font-weight: 300;
+    color: #999;
+  }
+}

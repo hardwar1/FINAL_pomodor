@@ -1,0 +1,45 @@
+@font-face {
+  font-family: "SF UI Display";
+  font-weight: 400;
+  src:
+    url("/src/assets/fonts/sf-ui-display-medium.woff2") format("woff2"),
+    url("/src/assets/fonts/sf-ui-display-medium.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SF UI Display";
+  font-weight: 300;
+  src:
+    url("/src/assets/fonts/sf-ui-display-light.woff2") format("woff2"),
+    url("/src/assets/fonts/sf-ui-display-light.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SF UI Display";
+  font-weight: 500;
+  src:
+    url("/src/assets/fonts/sf-ui-display-semibold.woff2") format("woff2"),
+    url("/src/assets/fonts/sf-ui-display-semibold.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SF UI Display";
+  font-weight: 700;
+  src:
+    url("/src/assets/fonts/sf-ui-display-bold.woff2") format("woff2"),
+    url("/src/assets/fonts/sf-ui-display-bold.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "SF UI Display";
+  font-weight: 100;
+  src:
+    local("SF UI Display"),
+    url("/src/assets/fonts/sf-ui-display-thin.woff2") format("woff2"),
+    url("/src/assets/fonts/sf-ui-display-thin.woff") format("woff");
+  font-display: swap;
+}
