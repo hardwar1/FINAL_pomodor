@@ -1,22 +1,51 @@
 
-import { DotsIcon } from '../../icons/DotsIcon';
+import { useEffect, useState } from 'react';
+import { TaskMenu } from './TaskMenu';
 import './tasklist.scss';
 
+interface ITask {
+  timeCount: number;
+  text: string;
+}
+
+const tasks: ITask[] = [
+  {
+    timeCount: 1,
+    text: 'Сверстать сайт',
+  },
+  {
+    timeCount: 2,
+    text: 'Выйти на крыльцо почесать своё ...',
+  },
+];
 
 export function TaskList() {
+  const [taskList, setTasklist] = useState(tasks);
+  const [total, setTotal] = useState(0);
+
+  const workTime = 25;
+
+  useEffect(() => {
+    setTotal(taskList.reduce((total, task) => {
+      return total + task.timeCount * workTime
+    }, 0))
+  }, taskList);
+
   return (
-    <div className="tasklist">
-      <ul className="taskList__list">
-        <li className="taskList__item">
-          <span className="taskList__timeCount">1</span>
-          Сверстать сайт
-          <button className="taskList__menuBtn" aria-label='меню задачи'>
-            <DotsIcon />
-          </button>
-        </li>
+    <div className="task-list">
+      <ul className="task-list__list">
+
+        {taskList.map((task) => (
+          <li className="task-list__item">
+            <span className="task-list__time-count">{task.timeCount}</span>
+            <span >{task.text}</span>
+
+            <TaskMenu />
+          </li>
+        ))}
 
       </ul>
-      <span className="taskList__total">50 мин</span>
+      <span className="task-list__total">{total} мин</span>
     </div>
   );
 }

@@ -1,4 +1,6 @@
-import './timer.css';
+import { Btn } from '../Btn';
+import { PlusBtn } from '../PlusBtn';
+import './timer.scss';
 
 export function Timer() {
   return (
@@ -14,6 +16,30 @@ export function Timer() {
             1
           </span>
         </span>
+      </div>
+
+      <div className="timer__body">
+        <div className="timer__time">
+          <span className="timer__minute">25</span>:<span className="timer__second">00</span>
+          <PlusBtn parrentClass='timer' ariaLabel='добавить'/>
+        </div>
+
+        <div className="timer__task"> Задача 1 - <b>Сверстать сайт</b></div>
+
+        <div className="timer__btns">
+          <Btn
+            parrentClass='timer'
+            text='Старт'
+            type='button'
+          />
+
+          <Btn
+            parrentClass='timer'
+            text='Стоп'
+            mode='gray'
+          />
+        </div>
+
       </div>
     </div>
   );

@@ -1,4 +1,4 @@
-import { StatIcon } from '../icons/StatIcon';
+import { StatIcon } from '../icons/Stat';
 import './statistic.scss';
 
 export function StatisticBtn() {

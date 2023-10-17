@@ -1,4 +1,4 @@
-.taskList {
+.task-list {
   &__list {
     margin-bottom: 10px;
   }
@@ -17,7 +17,7 @@
     }
   }
 
-  &__timeCount {
+  &__time-count {
     min-width: 25px;
     height: 25px;
     display: flex;
@@ -27,10 +27,6 @@
     margin-top: -2px;
   }
 
-  &__menuBtn {
-    margin-left: auto;
-    height: 30px;
-  }
 
   &__total {
     font-weight: 300;

@@ -1,0 +1,55 @@
+.task-menu {
+  position: relative;
+  margin-left: auto;
+
+  &__open-btn {
+    height: 30px;
+  }
+
+  &__hide-box {
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 50%;
+    z-index: 1;
+    transform: translateX(-50%);
+  }
+
+  &__list {
+    position: relative;
+    border: 1px solid #c4c4c4;
+    background-color: #fff;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      border-top: 1px solid #c4c4c4;
+      border-right: 1px solid #c4c4c4;
+      width: 15px;
+      height: 15px;
+      background-color: #fff;
+      transform: translateX(-50%) rotate(-45deg);
+    }
+  }
+
+  &__item {
+  }
+
+  &__button {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    padding: 5px 15px;
+    width: 100%;
+    font-weight: 300;
+    color: #999;
+    transition: background-color 0.3s;
+    gap: 8px;
+
+    &:hover {
+      background-color: #F4F4F4;
+    }
+  }
+}
