@@ -23,7 +23,7 @@ export function TaskList() {
   const [taskList, setTasklist] = useState(tasks);
   const [total, setTotal] = useState(0);
 
-  const workTime = 25;
+  let workTime = 25;
 
   useEffect(() => {
     setTotal(taskList.reduce((total, task) => {
