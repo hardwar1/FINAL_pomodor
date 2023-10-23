@@ -1,12 +1,13 @@
+import { Link } from 'react-router-dom';
 import { StatIcon } from '../icons/Stat';
 import './statistic.scss';
 
 export function StatisticBtn() {
   return (
-    <button className="statisticBtn">
+    <Link to='/statistic' className="statisticBtn">
       <StatIcon />
 
       Статистика
-    </button>
+    </Link>
   );
 }

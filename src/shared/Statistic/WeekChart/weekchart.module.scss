@@ -1,0 +1,69 @@
+.weekChart {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  padding-right: 109px;
+  width: 100%;
+  height: 471px;
+  background-color: #ececec;
+}
+
+.weekChartBody {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  width: 100%;
+  max-width: 731px;
+  gap: 32px;
+}
+
+.weekChartTopBg {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  height: calc(100% - 51px);
+  background-color: #f4f4f4;
+}
+
+.weekChartRelative {
+  position: relative;
+  height: 100%;
+}
+
+.weekChartPersent {
+  position: absolute;
+  right: 0;
+  padding-left: calc(100% - 109px + 32px);
+  width: 100%;
+  font-size: 12px;
+  font-weight: 400;
+  color: #333;
+  transform: translateY(-50%);
+
+  &::after {
+    content: "";
+    position: absolute;
+    top: calc(50% - 1px);
+    left: 0;
+    width: calc(100% - 109px);
+    height: 1px;
+    background-color: rgba(51, 51, 51, 0.2);
+  }
+}
+
+.weekChartPersent20 {
+  top: 20%;
+}
+
+.weekChartPersent40 {
+  top: 40%;
+}
+
+.weekChartPersent60 {
+  top: 60%;
+}
+
+.weekChartPersent80 {
+  top: 80%;
+}

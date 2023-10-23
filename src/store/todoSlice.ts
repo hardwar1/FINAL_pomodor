@@ -1,38 +1,95 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type todo = {
+export interface todo  {
   id: string;
   text: string;
+  timesCount: number;
   completed: boolean;
-}
+};
 
-interface IinitialState {
-  todos: todo[] | [];
-}
+type initialState = {
+  todos: todo[];
+  activeTaskId: string;
+  noTodo: {
+    id: 'no',
+    text: 'Выйти на крыльцо, почесать своё ...',
+    timesCount: number,
+    completed: false
+  }
+};
 
-const initialState: IinitialState = {
+const initialState: initialState = {
   todos: [],
-}
+  activeTaskId: '',
+  noTodo: {
+    id: 'no',
+    text: 'Выйти на крыльцо, почесать своё ...',
+    timesCount: 1,
+    completed: false
+  } 
+};
 
 const todoSlice = createSlice({
-  name: 'todos',
+  name: "todos",
   initialState,
+
   reducers: {
-    // экшены
-    addTodo(state, action) {
-      // state.todos.push({
-      //   id: 'dsafa',
-      //   text: 'dfs',
-      //   completed: false,
-      // });
+    addTodo(state, action: PayloadAction<string>) {
+      state.todos.push({
+        id: (() => Math.random().toString())(),
+        text: action.payload,
+        completed: false,
+        timesCount: 1,
+      });
     },
-    removeTodo(state, action) { },
-    toggleTodoComplete(state, action) { },
-  }
+
+    resetTodo(state) {
+      state.todos = [];
+    },
+
+    addStoradgeTodo(state, action: PayloadAction<todo[]>) {
+      state.todos = action.payload;
+    },
+
+    increment(state, action: PayloadAction<string>) {
+      const thisTodo = state.todos.filter(item => item.id == action.payload)
+      thisTodo[0].timesCount++
+    },
+
+    decrement(state, action: PayloadAction<string>) {
+      const thisTodo = state.todos.filter(item => item.id == action.payload)
+      if (thisTodo[0].timesCount > 0) thisTodo[0].timesCount--
+    },
+
+    removeTodo(state, action: PayloadAction<string>) {
+      state.todos = state.todos.filter(item => item.id !== action.payload)
+    },
+
+    changeTodo(state, action: PayloadAction<{text: string, id: string}>) {
+      for (const todo of state.todos) {
+        if (todo.id == action.payload.id) {
+          todo.text = action.payload.text;
+        }
+      }
+    },
+
+    setTaskId(state, action: PayloadAction<string>) {
+      state.activeTaskId = action.payload;
+    },
+  },
 });
 
 // экспорт экшенов
-export const { addTodo, removeTodo, toggleTodoComplete } = todoSlice.actions;
+export const {
+  addTodo,
+  resetTodo,
+  addStoradgeTodo,
+  removeTodo,
+  changeTodo,
+  increment,
+  decrement,
+  setTaskId,
+} = todoSlice.actions;
 
 // этот редюсер в стор подключить
-export default todoSlice.reducer; 
+export default todoSlice.reducer;

@@ -4,6 +4,7 @@
   }
 
   &__item {
+    position: relative;
     border-top: 1px solid #e4e4e4;
     padding: 12px 0;
     display: flex;
@@ -17,6 +18,17 @@
     }
   }
 
+  &__hide-btn {
+    position: absolute;
+    z-index: 1;
+    inset: 0;
+  }
+
+  &__form {
+    position: relative;
+    z-index: 2;
+  }
+
   &__time-count {
     min-width: 25px;
     height: 25px;
@@ -26,7 +38,6 @@
     border: 1px solid #c4c4c4;
     margin-top: -2px;
   }
-
 
   &__total {
     font-weight: 300;

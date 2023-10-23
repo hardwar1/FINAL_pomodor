@@ -1,21 +1,33 @@
 import './App.css'
 import { Header } from './shared/Header'
 import { Content } from './shared/Content'
-import { Provider } from 'react-redux'
-import {setupStore} from './store/store'
-
-const store = setupStore();
+import { useEffect } from 'react'
+import { useAppDispatch } from './store/hooks/redux';
+import { addStoradgeTodo, addTodo, resetTodo } from './store/todoSlice';
 
 function App() {
+  const dispatch = useAppDispatch();
+  // dispatch(resetTodo());
+
+  useEffect(() => {
+    const todoListString = localStorage.getItem('todos');
+    
+    if (todoListString) {
+      // const todoList = JSON.parse(todoListString)
+
+      dispatch(addStoradgeTodo(JSON.parse(todoListString)))
+    }
+  })
 
   return (
     <>
-      <Provider store={store}>
-        <Header />
-        <Content />
-      </Provider>
+
+      <Header />
+      <Content />
+
     </>
   )
 }
 
 export default App
+

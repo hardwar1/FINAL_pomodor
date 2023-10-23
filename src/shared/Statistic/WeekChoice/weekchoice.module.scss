@@ -1,0 +1,37 @@
+.weekChoice {
+  position: relative;
+}
+
+.weekChoiceButton {
+  width: 370px;
+  height: 55px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-left: 15px;
+  padding-right: 15px;
+  background-color: #f4f4f4;
+
+  svg {
+    transition: transform 0.3s;
+  }
+
+  &.active svg {
+    transform: rotate(180deg)
+  }
+}
+
+.weekChoiceHideWrapper {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 2;
+  // height: 0;
+  filter: drop-shadow(0 10px 63px rgba(0, 0, 0, 0.15));
+  overflow: hidden;
+  transition: height 0.3s;
+}
+
+.weekChoiceList > * > * {
+  border-top: 1px solid #dedede;
+}

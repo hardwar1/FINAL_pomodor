@@ -1,0 +1,26 @@
+.weekChartItem {
+  width: 100%;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+
+.weekChartButton {
+  height: 51px;
+  width: 100%;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #999;
+  font-size: 24px;
+}
+
+.weekChartValue {
+  max-height: calc(100% - 51px);
+  min-height: 1%;
+  position: absolute;
+  bottom: 51px;
+  left: 0;
+  width: 100%;
+}

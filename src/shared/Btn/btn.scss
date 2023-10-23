@@ -6,10 +6,16 @@
   color: var(--white, #fff);
   text-align: center;
   background-color: #a8b64f;
+  
+  transition: background-color 0.3, border-color 0.3;
 
   &--gray {
     background-color: transparent;
     border: 2px solid #c4c4c4;
     color: #c4c4c4;
+  }
+
+  &--red {
+    background-color: #DC3E22;
   }
 }

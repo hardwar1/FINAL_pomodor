@@ -1,47 +1,33 @@
 
 import { useEffect, useState } from 'react';
-import { TaskMenu } from './TaskMenu';
+import { useAppSelector } from '../../../store/hooks/redux';
+import { TaskListItem } from './TaskListItem';
 import './tasklist.scss';
 
-interface ITask {
-  timeCount: number;
-  text: string;
-}
-
-const tasks: ITask[] = [
-  {
-    timeCount: 1,
-    text: 'Сверстать сайт',
-  },
-  {
-    timeCount: 2,
-    text: 'Выйти на крыльцо почесать своё ...',
-  },
-];
+let workTime = 25;
 
 export function TaskList() {
-  const [taskList, setTasklist] = useState(tasks);
   const [total, setTotal] = useState(0);
 
-  let workTime = 25;
+  const { todos } = useAppSelector(state => state.todoReducer);
 
   useEffect(() => {
-    setTotal(taskList.reduce((total, task) => {
-      return total + task.timeCount * workTime
+    if (todos.length > 0) {
+      localStorage.setItem('todos', JSON.stringify(todos));
+    }
+  }, [todos])
+
+  useEffect(() => {
+    setTotal(todos.reduce((total, task) => {
+      return total + task.timesCount * workTime
     }, 0))
-  }, taskList);
+  }, [todos]);
 
   return (
     <div className="task-list">
       <ul className="task-list__list">
-
-        {taskList.map((task) => (
-          <li className="task-list__item">
-            <span className="task-list__time-count">{task.timeCount}</span>
-            <span >{task.text}</span>
-
-            <TaskMenu />
-          </li>
+        {todos.map((task) => (
+          <TaskListItem task={task} key={task.id}/>
         ))}
 
       </ul>
