@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
 import { Btn } from '../Btn';
 import { PlusBtn } from '../PlusBtn';
-import './timer.scss';
 import { useAppDispatch, useAppSelector } from '../../store/hooks/redux';
 import { decrement, todo } from '../../store/todoSlice';
-import { pushStatEndPomodor } from '../../store/statisticSlice';
+import { addPauseTime, addStopCount, addWorkTime, pushStatEndPomodor } from '../../store/statisticSlice';
+import './timer.scss';
 
 export function Timer() {
   const [stop, setStop] = useState(false);
+  const [pause, setPause] = useState(false);
   const [start, setStart] = useState(false);
+  const [breakNow, setBreakNow] = useState(false);
   const [second, setSecond] = useState('00');
   const [menuts, setMenuts] = useState('01');
   const [addMinute, setAddMinute] = useState(false);
@@ -23,8 +25,11 @@ export function Timer() {
   const { todos } = useAppSelector(state => state.todoReducer);
   const { activeTaskId } = useAppSelector(state => state.todoReducer);
   const { noTodo } = useAppSelector(state => state.todoReducer);
-  const [filterTodo] = todos.filter(todo => todo.id == activeTaskId);
+
   const dispatch = useAppDispatch();
+
+
+  const [filterTodo] = todos.filter(todo => todo.id == activeTaskId);
   let thisTodo: todo =
     filterTodo?.id ? filterTodo
       : todos[0] ? todos[0] : noTodo;
@@ -33,22 +38,40 @@ export function Timer() {
   const workTime = 1;
 
   useEffect(() => {
-    if (!start || !thisTodo || stop) return;
-    if (thisTodo.timesCount <= 0) {
-      setStart(false);
-      setEmptyTime(true);
-      return
+    if (!start || !thisTodo || pause) return;
+
+    let menutsNum = 0;
+    let isWork: boolean;
+
+    if (Number(menuts) || Number(second)) {
+      menutsNum = Number(menuts);
+
+      if (breakNow) {
+        isWork = false;
+      } else {
+        isWork = true;
+        setIsWork(true);
+      }
     } else {
-      
-      setEmptyTime(false);    
+      if (thisTodo.timesCount <= 0) {
+        setStart(false);
+        setEmptyTime(true);
+        return
+      } else {
+        setEmptyTime(false);
+      }
+
+      menutsNum = workTime;
+
+      if (breakNow) {
+        isWork = false;
+      } else {
+        isWork = true;
+        setIsWork(true);
+      }
     }
 
-    let isWork = true;
-    setIsWork(true);
-
     let secondNum = Number(second);
-    let menutsNum = Number(menuts) || Number(second) ? Number(menuts) : workTime;
-
     setMenuts(('0' + menutsNum).slice(-2));
 
     if (addMinute) {
@@ -57,13 +80,12 @@ export function Timer() {
       setAddMinute(false)
     }
 
-    let timerId = setInterval(() => {
-      
+    let startTime = new Date().getTime();
 
+    let timerId = setInterval(() => {
       if (secondNum <= 0 && menutsNum <= 0) {
         if (thisTodo.id !== 'no') {
           dispatch(decrement(thisTodo.id));
-
         }
 
         if (isWork == true) {
@@ -72,6 +94,7 @@ export function Timer() {
           isWork = false;
           setIsWork(false);
           dispatch(pushStatEndPomodor(timeWork));
+          dispatch(addWorkTime(startTime));
           setTimeWork(0);
         } else {
           if (thisTodo.timesCount - 1 <= 0) setEmptyTime(true);
@@ -93,13 +116,31 @@ export function Timer() {
       }
     }, 1000);
 
-    if (stop) {
-      setStart(false);
+    if (pause) {
+      dispatch(addWorkTime(startTime));
       clearInterval(timerId);
     };
 
+    if (stop) {
+      clearInterval(timerId);
+      if (thisTodo.id !== 'no') {
+        dispatch(decrement(thisTodo.id));
+      }
+      dispatch(addStopCount());
+      // console.log(isWork);
+      if (isWork) {
+        dispatch(pushStatEndPomodor(timeWork));
+        dispatch(addWorkTime(startTime));
+      }
+      if (thisTodo.timesCount - 1 <= 0) setEmptyTime(true);
+      setSecond('00');
+      setMenuts('00');
+      setStart(false);
+      setIsWork(true);
+    };
+
     return () => clearInterval(timerId);
-  }, [start, stop, addMinute]);
+  }, [start, stop, addMinute, pause, breakNow]);
 
   const addMinuteFn = () => {
     if (start && !stop) {
@@ -122,6 +163,16 @@ export function Timer() {
       })
     }
   }, [isWork, stop, start]);
+
+  useEffect(() => {
+    let pauseTime = 0;
+
+    if (pause) {
+      pauseTime = new Date().getTime();
+    } else if (pauseTime > 0) {
+      dispatch(addPauseTime(pauseTime))
+    }
+  }, [pause])
 
   return (
     <div className="timer">
@@ -148,41 +199,61 @@ export function Timer() {
         }
 
         <div className="timer__btns">
-          <Btn
-            parrentClass='timer'
-            text='Старт'
-            type='button'
-            onClick={() => { setStop(false), setStart(true) }}
-          />
+          {!start && !pause &&
+            < Btn
+              parrentClass='timer'
+              text='Старт'
+              type='button'
+              onClick={() => { setStop(false), setPause(false), setStart(true), setBreakNow(false) }}
+            />
+          }
 
-          {!stop &&
+          {start && !pause &&
+            <Btn
+              parrentClass='timer'
+              text='пауза'
+              type='button'
+              onClick={() => { setPause(true), setStart(false) }}
+            />
+          }
+
+          {!start && pause &&
+            <Btn
+              parrentClass='timer'
+              text='Продолжить'
+              type='button'
+              onClick={() => { setStop(false), setBreakNow(!isWork), setPause(false), setStart(true) }}
+            />
+          }
+
+          {isWork && !pause &&
             <Btn
               parrentClass='timer'
               text='Стоп'
-              mode='gray'
-              onClick={() => setStop(true)}
+              mode='red'
+              onClick={() => { setPause(false), setStart(true), setStop(true) }}
             />
           }
 
-          {stop && isWork && 
-            <Btn
-              parrentClass='timer'
+          {!start && isWork && pause &&
+            <Btn parrentClass='timer'
               text='Сделано'
+
               mode='red'
-              // onClick={() => setStop(true)}
+              onClick={() => { setPause(false), setStart(true), setStop(true) }}
             />
           }
-          {stop && !isWork && 
+
+          {!isWork &&
             <Btn
               parrentClass='timer'
               text='Пропустить'
               mode='red'
-              // onClick={() => setStop(true)}
+              onClick={() => { setPause(false), setStop(true), setBreakNow(false) }}
             />
           }
 
         </div>
-
       </div>
     </div>
   );

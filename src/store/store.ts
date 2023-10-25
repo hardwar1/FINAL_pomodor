@@ -4,7 +4,7 @@ import statisticReducer from "./statisticSlice";
 
 const rootReducer = combineReducers({
   todoReducer,
-  // statisticReducer,
+  statisticReducer,
 });
 
 export const setupStore = () => {

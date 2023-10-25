@@ -1,10 +1,85 @@
+import { useEffect, useState } from 'react';
+import { useAppSelector } from '../../store/hooks/redux';
 import { LogoPomodor } from '../icons/LogoPomodor';
 import { StatCard } from './StatCard';
 import { WeekChart } from './WeekChart';
 import { WeekChoice } from './WeekChoice';
 import './statistic.scss';
+import { workDay } from '../../store/statisticSlice';
+
+const emptyDay = {
+  pomodor: 0,
+  workTime: 0,
+  stopCount: 0,
+  timeOnPause: 0,
+};
 
 export function Statistic() {
+  const [week, setWeek] = useState<0 | -1 | -2 >(0);
+  const [weeksStat, setWeeksStat] = useState<workDay[]>([]);
+  const [nowDate, setNowDate] = useState(new Date().getTime());
+
+  const { statistic } = useAppSelector(state => state.statisticReducer);
+  // const nowMonth = new Date().getMonth();
+  // const nowMonthDay = new Date().getDate();
+  let nowWeekDay = new Date().getDay();
+
+  let renderWeek: workDay[] = [];
+
+  useEffect(() => {
+    nowWeekDay += 14;
+    let result: workDay[] = [];
+
+    for (let weekDay = 1; weekDay <= 21; weekDay++) {
+      const tempDate = new Date(nowDate + (weekDay - nowWeekDay) * 24 * 60 * 60 * 1000);
+
+      if (weekDay <= nowWeekDay) {
+        const tempMonth = tempDate.getMonth();
+        const tempMonthDay = tempDate.getDate();
+
+        const dayStat = statistic.filter((day) =>
+          new Date(day.date).getMonth() == tempMonth &&
+          new Date(day.date).getDate() == tempMonthDay
+        )
+
+        if (dayStat.length > 0) {
+          result.push(...dayStat);
+        } else {
+          result.push({
+            date: tempDate.getTime(),
+            ...emptyDay
+          })
+        }
+      } else {
+        result.push({
+          date: tempDate.getTime(),
+          ...emptyDay
+        })
+      }
+    }
+
+    setWeeksStat([...result]);
+
+  }, [statistic]);
+
+  useEffect(() => {
+    if (week == 0) {
+      renderWeek = weeksStat.slice(-7);
+    }
+    if (week == -1) {
+      renderWeek = weeksStat.slice(7, 14);
+    }
+    if (week == -2) {
+      renderWeek = weeksStat.slice(0, 7);
+    }
+
+    // console.log(renderWeek);
+  }, [weeksStat, week]);
+
+  useEffect(() => {
+    console.log(nowDate);
+  }, [nowDate]);
+
   return (
     <div className="statistic">
       <div className="statistic__head">
@@ -12,7 +87,7 @@ export function Statistic() {
           Ваша активность
         </h1>
 
-        <WeekChoice />
+        <WeekChoice changeWeek={setWeek} week={week} />
       </div>
 
       <div className="statistic__body">

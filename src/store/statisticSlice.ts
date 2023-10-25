@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type workDay = {
-  date: Date;
+export type workDay = {
+  date: number;
   pomodor: number;
   workTime: number;
   stopCount: number;
@@ -22,10 +22,11 @@ const statisticSlice = createSlice({
 
   reducers: {
     pushStatEndPomodor(state, action: PayloadAction<number>) {
-      const toDay = new Date();
+      const toDay = new Date().getTime();
+      const date = new Date().getDate();
       // const toDayStat = state.statistic.filter((day) => day.date === toDay);
       for (const day of state.statistic) {
-        if (day.date === toDay) {
+        if (new Date(day.date).getDate() === date) {
           day.pomodor++;
           day.workTime += action.payload;
           return;
@@ -41,11 +42,12 @@ const statisticSlice = createSlice({
       });
     },
 
-    addStop(state) {
-      const toDay = new Date();
+    addStopCount(state) {
+      const toDay = new Date().getTime();
+      const date = new Date().getDate();
 
       for (const day of state.statistic) {
-        if (day.date === toDay) {
+        if (new Date(day.date).getDate() === date) {
           day.stopCount++;
           return;
         }
@@ -61,17 +63,35 @@ const statisticSlice = createSlice({
     },
 
     addPauseTime(state, action: PayloadAction<number>) {
-      const toDay = new Date();
+      const toDay = new Date().getTime();
+      const date = new Date().getDate();
 
       for (const day of state.statistic) {
-        if (day.date === toDay) {
-          day.timeOnPause += action.payload;
+        if (new Date(day.date).getDate() === date) {
+          day.timeOnPause += toDay - action.payload;
         }
       }
     },
+
+    addWorkTime(state, action: PayloadAction<number>) {
+      const toDay = new Date().getTime();
+      const date = new Date().getDate();
+
+      for (const day of state.statistic) {
+        if (new Date(day.date).getDate() === date) {
+          day.workTime += toDay - action.payload;
+        }
+      }
+    },
+
+    addStoradgeStatistic(state, action: PayloadAction<workDay[]>) {
+      state.statistic = action.payload;
+    },
   },
+
+  
 });
 
-export const { pushStatEndPomodor, addStop, addPauseTime } =
+export const { pushStatEndPomodor, addStopCount, addPauseTime, addWorkTime, addStoradgeStatistic } =
   statisticSlice.actions;
 export default statisticSlice.reducer;

@@ -4,8 +4,13 @@ import { Timer } from '../Timer';
 import { Info } from '../Info';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Statistic } from '../Statistic';
+import { useAppSelector } from '../../store/hooks/redux';
+import { SaveStat } from '../SaveStat';
 
 export function Content() {
+  // const { statistic } = useAppSelector(state => state.statisticReducer);
+  // console.log(statistic);
+
   return (
     <main className="main">
       <Routes>
@@ -29,7 +34,7 @@ export function Content() {
 
         <Route path="*" element={<Navigate to={'/'} replace />} />
       </Routes>
-
+      <SaveStat />
     </main>
   );
 }
