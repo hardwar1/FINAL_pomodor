@@ -5,9 +5,10 @@ import './statcard.scss';
 
 interface IStatCard {
   mode: 'focus' | 'time-on-pause' | 'pause-count';
+  value: number;
 }
 
-export function StatCard({ mode }: IStatCard) {
+export function StatCard({ mode, value }: IStatCard) {
 
 
   return (
@@ -26,7 +27,14 @@ export function StatCard({ mode }: IStatCard) {
         }
 
         <span className="stat-card__number">
-          35%
+          {value}
+          {mode == 'focus' &&
+            <>%</>
+          }
+
+          {mode == 'time-on-pause' &&
+            <>м</>
+          }
         </span>
       </div>
 

@@ -24,7 +24,7 @@ export function Info() {
 
       <ul className="info__list">
         {listRule.map(text => (
-          <li className="info__item" key={ random()}>
+          <li className="info__item" key={ (()=> Math.random())()}>
             {text}
           </li>
         ))}

@@ -8,14 +8,7 @@ let workTime = 25;
 
 export function TaskList() {
   const [total, setTotal] = useState(0);
-
   const { todos } = useAppSelector(state => state.todoReducer);
-
-  useEffect(() => {
-    if (todos.length > 0) {
-      localStorage.setItem('todos', JSON.stringify(todos));
-    }
-  }, [todos])
 
   useEffect(() => {
     setTotal(todos.reduce((total, task) => {
@@ -27,10 +20,10 @@ export function TaskList() {
     <div className="task-list">
       <ul className="task-list__list">
         {todos.map((task) => (
-          <TaskListItem task={task} key={task.id}/>
+          <TaskListItem task={task} key={task.id} />
         ))}
-
       </ul>
+
       <span className="task-list__total">{total} мин</span>
     </div>
   );

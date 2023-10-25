@@ -1,83 +1,62 @@
 
+import { useEffect } from 'react';
+import { workDay } from '../../../store/statisticSlice';
 import { WeekChartItem } from './WeekChartItem';
 import styles from './weekchart.module.scss';
 
 interface IWeekChart {
-  weekStat?: {
-
-  };
+  renderWeek: workDay[];
 }
 
-const weekStatistic = [
-  {
-    value: 10,
-    day: 'Пн',
-    date: new Date(),
-  },
-  {
-    value: 20,
-    day: 'вт',
-    date: new Date(),
-  },
-  {
-    value: 30,
-    day: 'ср',
-    date: new Date(),
-  },
-  {
-    value: 40,
-    day: 'чт',
-    date: new Date(),
-  },
-  {
-    value: 50,
-    day: 'Пт',
-    date: new Date(),
-  },
-  {
-    value: 0,
-    day: 'сб',
-    date: new Date(),
-  },
-  {
-    value: 0,
-    day: 'вс',
-    date: new Date(),
-  },
+const weekDays = [
+  'Пн',
+  'вт',
+  'ср',
+  'чт',
+  'Пт',
+  'сб',
+  'вс',
 ];
 
-export function WeekChart({ weekStat }: IWeekChart) {
+export function WeekChart({ renderWeek }: IWeekChart) {
+  useEffect(()=>{
+    console.log(renderWeek);
+    const timesWork = renderWeek.map(day => day.workTime / 60000 );
+
+    console.log(timesWork);
+  });
+
   return (
     <div className={styles.weekChart}>
 
-      <ul className={styles.weekChartBody}>
+      <ul className={styles.weekChartBody }>
         <WeekChartItem
-          value={weekStatistic[0].value}
-          day={weekStatistic[0].day}
+          value={renderWeek[0]?.workTime / 60000}
+          day={weekDays[0]}
         />
         <WeekChartItem
-          value={weekStatistic[1].value}
-          day={weekStatistic[1].day}
+          value={renderWeek[1]?.workTime / 60000}
+          day={weekDays[1]}
         />
         <WeekChartItem
-          value={weekStatistic[2].value}
-          day={weekStatistic[2].day}
+          value={renderWeek[2]?.workTime / 60000}
+          day={weekDays[2]}
         />
         <WeekChartItem
-          value={weekStatistic[3].value}
-          day={weekStatistic[3].day}
+          value={renderWeek[3]?.workTime / 60000}
+          day={weekDays[3]}
         />
         <WeekChartItem
-          value={weekStatistic[4].value}
-          day={weekStatistic[4].day}
+          value={renderWeek[4]?.workTime / 60000}
+          day={weekDays[4]}
         />
         <WeekChartItem
-          value={weekStatistic[5].value}
-          day={weekStatistic[5].day}
+          value={renderWeek[5]?.workTime / 60000}
+          day={weekDays[5]}
         />
         <WeekChartItem
-          value={weekStatistic[6].value}
-          day={weekStatistic[6].day}
+          value={renderWeek[6]?.workTime / 60000}
+          day={weekDays[6]}
         />
       </ul>
 

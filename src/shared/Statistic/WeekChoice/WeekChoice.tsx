@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ArrowBottom } from '../../icons/ArrowBottom';
 import styles from './weekchoice.module.scss';
+import { workDay } from '../../../store/statisticSlice';
 
 interface IWeekChoice {
   week?: 0 | -1 | -2;

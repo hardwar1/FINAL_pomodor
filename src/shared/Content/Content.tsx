@@ -4,37 +4,30 @@ import { Timer } from '../Timer';
 import { Info } from '../Info';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Statistic } from '../Statistic';
-import { useAppSelector } from '../../store/hooks/redux';
-import { SaveStat } from '../SaveStat';
+
 
 export function Content() {
-  // const { statistic } = useAppSelector(state => state.statisticReducer);
-  // console.log(statistic);
-
   return (
     <main className="main">
-      <Routes>
-        <Route path="/" element={
-          <Container>
+      <Container>
+        <Routes>
+          <Route path="/" element={
             <div className="main__content">
               <Info />
 
               <Timer />
             </div>
-          </Container>
-        }>
-        </Route>
+          }>
+          </Route>
 
-        <Route path="/statistic" element={
-          <Container>
+          <Route path="statistic" element={
             <Statistic />
-          </Container>
-        }>
-        </Route>
+          } />
 
-        <Route path="*" element={<Navigate to={'/'} replace />} />
-      </Routes>
-      <SaveStat />
+          <Route path="*" element={<Navigate to={'/'} replace />} />
+        </Routes>
+      </Container>
+
     </main>
   );
 }
