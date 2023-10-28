@@ -1,4 +1,3 @@
-import './App.css'
 import { Header } from './shared/Header'
 import { Content } from './shared/Content'
 import { useEffect } from 'react'
@@ -7,6 +6,8 @@ import { addStoradgeTodo } from './store/todoSlice';
 import { addStoradgeStatistic } from './store/statisticSlice';
 import { SaveStat } from './shared/save/SaveStat';
 import { SaveTodos } from './shared/save/SaveTodos';
+
+// import './App.css'
 
 function App() {
   const dispatch = useAppDispatch();
@@ -26,10 +27,8 @@ function App() {
     }
   })
 
-
   return (
     <>
-
       <Header />
       <Content />
 

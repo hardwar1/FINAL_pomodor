@@ -6,6 +6,12 @@
   width: 100%;
   height: 471px;
   background-color: #ececec;
+  padding-left: 10px;
+
+  @media (max-width: 768px) {
+    height: 315px;
+    padding-right: 80px;
+  }
 }
 
 .weekChartBody {
@@ -15,6 +21,12 @@
   width: 100%;
   max-width: 731px;
   gap: 32px;
+
+  @media (max-width: 768px) {
+    gap: 10px;
+    justify-content: space-between;
+  }
+
 }
 
 .weekChartTopBg {
@@ -41,6 +53,10 @@
   color: #333;
   transform: translateY(-50%);
 
+  @media (max-width: 768px) {
+    padding-left: calc(100% - 95px + 32px);
+  }
+
   &::after {
     content: "";
     position: absolute;
@@ -49,6 +65,10 @@
     width: calc(100% - 109px);
     height: 1px;
     background-color: rgba(51, 51, 51, 0.2);
+
+    @media (max-width: 768px) {
+      width: calc(100% - 80px);
+    }
   }
 }
 

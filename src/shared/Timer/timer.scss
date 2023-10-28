@@ -6,16 +6,23 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    gap: 10px;
     padding: 16px 40px;
     font-weight: 700;
     color: #fff;
     background-color: #c4c4c4;
+
+    @media (max-width: 768px) {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
   }
 
   &__text {
   }
 
   &__count {
+    
   }
 
   &__body {
@@ -25,6 +32,12 @@
     align-items: center;
     height: calc(100% - 56px);
     background-color: #f4f4f4;
+    padding: 25px;
+
+    @media (max-width: 500px) {
+      padding-left: 10px;
+      padding-right: 10px;
+    }
   }
 
   &__time {
@@ -33,12 +46,25 @@
     line-height: 1;
     color: #333;
     position: relative;
+    @media (max-width: 768px) {
+      font-size: 80px;
+      margin-bottom: 15px;
+    }
+
+    @media (max-width: 500px) {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
   }
 
   &__minute {
   }
 
   &__second {
+    @media (max-width: 500px) {
+margin-right: 10px;
+    }
   }
 
   &__plusBtn.plusBtn {
@@ -46,6 +72,13 @@
     top: 50%;
     transform: translateY(-50%);
     left: calc(100% + 25px);
+
+    @media (max-width: 500px) {
+      position: relative;
+      top: unset;
+      left: unset;
+      transform: unset;
+    }
   }
 
   &__task {
@@ -59,9 +92,13 @@
 
   &__btns {
     display: flex;
+    flex-wrap: wrap;
     gap: 25px;
   }
 
   &__btn {
+    @media (max-width: 500px) {
+      width: 100%;
+    }
   }
 }

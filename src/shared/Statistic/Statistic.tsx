@@ -4,8 +4,8 @@ import { LogoPomodor } from '../icons/LogoPomodor';
 import { StatCard } from './StatCard';
 import { WeekChart } from './WeekChart';
 import { WeekChoice } from './WeekChoice';
-import './statistic.scss';
 import { workDay } from '../../store/statisticSlice';
+import './statistic.scss';
 
 const emptyDay = {
   pomodor: 0,

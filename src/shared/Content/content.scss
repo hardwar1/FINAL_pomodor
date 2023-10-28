@@ -5,5 +5,10 @@
   &__content {
     display: flex;
     gap: 16px;
+
+    @media (max-width: 1200px) {
+      flex-direction: column-reverse;
+      align-items: center;
+    }
   }
 }

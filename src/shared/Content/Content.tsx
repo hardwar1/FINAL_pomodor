@@ -1,9 +1,9 @@
-import './content.scss';
 import { Container } from '../Container';
 import { Timer } from '../Timer';
 import { Info } from '../Info';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Statistic } from '../Statistic';
+import './content.scss';
 
 
 export function Content() {
