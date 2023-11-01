@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useAppSelector } from '../../store/hooks/redux';
+import { useAppDispatch, useAppSelector } from '../../store/hooks/redux';
 import { LogoPomodor } from '../icons/LogoPomodor';
 import { StatCard } from './StatCard';
 import { WeekChart } from './WeekChart';
 import { WeekChoice } from './WeekChoice';
-import { workDay } from '../../store/statisticSlice';
+import { setRenderWeek, workDay } from '../../store/statisticSlice';
 import './statistic.scss';
 
 const emptyDay = {
@@ -21,8 +21,10 @@ export function Statistic() {
   const [weeksStat, setWeeksStat] = useState<workDay[]>([]);
   const [nowDate] = useState(new Date().getTime());
   const [showDay, setShowDay] = useState<workDay>({ date: new Date().getTime(), ...emptyDay });
-  const [renderWeek, setRenderWeek] = useState<workDay[]>([])
+  // const [renderWeek, setRenderWeek] = useState<workDay[]>([])
   const { statistic } = useAppSelector(state => state.statisticReducer);
+
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
 // console.log(statistic);
@@ -65,13 +67,16 @@ export function Statistic() {
 
   useEffect(() => {
     if (week == 0) {
-      setRenderWeek(weeksStat.slice(-7))
+      // setRenderWeek();
+      dispatch(setRenderWeek(weeksStat.slice(-7)))
     }
     if (week == -1) {
-      setRenderWeek(weeksStat.slice(7, 14))
+      // setRenderWeek(weeksStat.slice(7, 14))
+      dispatch(setRenderWeek(weeksStat.slice(7, 14)))
     }
     if (week == -2) {
-      setRenderWeek(weeksStat.slice(0, 7))
+      // setRenderWeek(weeksStat.slice(0, 7))
+      dispatch(setRenderWeek(weeksStat.slice(0, 7)))
     }
   }, [weeksStat, week]);
 
@@ -148,7 +153,6 @@ export function Statistic() {
           {/* <WeekChart weekStat={weekStat}/> */}
 
           <WeekChart
-            renderWeek={renderWeek}
             handleClickThisDay={handleClickThisDay}
             activeDay={new Date(showDay.date).getDay()}
           />

@@ -6,18 +6,21 @@ export type workDay = {
   workTime: number;
   stopCount: number;
   timeOnPause: number;
+   
 };
 
 type initialState = {
   statistic: workDay[];
   startPauseTime: false | number;
   startWorkTime: false | number;
+  renderWeek: workDay[];
 };
 
 const initialState: initialState = {
   statistic: localStorage.statistic ? JSON.parse(localStorage.statistic) : [],
   startPauseTime: false,
   startWorkTime: false,
+  renderWeek: [],
 };
 
 const statisticSlice = createSlice({
@@ -110,6 +113,10 @@ const statisticSlice = createSlice({
       state.statistic = [];
       localStorage.statistic = JSON.stringify([]);
     },
+
+    setRenderWeek(state, action: PayloadAction<workDay[]>) {
+      state.renderWeek = action.payload;
+    },
   },
 });
 
@@ -121,5 +128,6 @@ export const {
   resetStat,
   setStartPauseTime,
   setStartWorkTime,
+  setRenderWeek,
 } = statisticSlice.actions;
 export default statisticSlice.reducer;

@@ -12,7 +12,7 @@ export function Timer() {
   const [start, setStart] = useState(false);
   const [breakNow, setBreakNow] = useState(false);
   const [second, setSecond] = useState('00');
-  const [menuts, setMenuts] = useState('01');
+  const [menuts, setMenuts] = useState('25');
   const [addMinute, setAddMinute] = useState(false);
   const [emptyTime, setEmptyTime] = useState(false);
   const [isWork, setIsWork] = useState(true);
@@ -32,13 +32,13 @@ export function Timer() {
     filterTodo?.id ? filterTodo
       : todos[0] ? todos[0] : noTodo;
 
-  const breakTime = 1;
-  const workTime = 1;
+  const breakTime = 5;
+  const workTime = 25;
 
   useEffect(() => {
     if (!start || !thisTodo || pause) return;
 
-    let menutsNum = 0;
+    let menutsNum = workTime;
     let isWork: boolean;
 
     if (Number(menuts) || Number(second)) {
@@ -104,8 +104,8 @@ export function Timer() {
       } else if (secondNum <= 0) {
         menutsNum--;
         setMenuts(('0' + menutsNum).slice(-2));
-        secondNum = 5;
-        setSecond('05');
+        secondNum = 59;
+        setSecond('59');
 
       } else {
         secondNum--;
