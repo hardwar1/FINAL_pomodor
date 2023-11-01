@@ -3,7 +3,7 @@ import { Btn } from '../Btn';
 import { PlusBtn } from '../PlusBtn';
 import { useAppDispatch, useAppSelector } from '../../store/hooks/redux';
 import { decrement, todo } from '../../store/todoSlice';
-import { addPauseTime, addStopCount, addWorkTime, pushStatEndPomodor } from '../../store/statisticSlice';
+import { addPauseTime, addStopCount, addWorkTime, pushStatEndPomodor, setStartPauseTime, setStartWorkTime } from '../../store/statisticSlice';
 import './timer.scss';
 
 export function Timer() {
@@ -25,9 +25,7 @@ export function Timer() {
   const { todos } = useAppSelector(state => state.todoReducer);
   const { activeTaskId } = useAppSelector(state => state.todoReducer);
   const { noTodo } = useAppSelector(state => state.todoReducer);
-
   const dispatch = useAppDispatch();
-
 
   const [filterTodo] = todos.filter(todo => todo.id == activeTaskId);
   let thisTodo: todo =
@@ -51,6 +49,7 @@ export function Timer() {
       } else {
         isWork = true;
         setIsWork(true);
+        dispatch(setStartWorkTime());
       }
     } else {
       if (thisTodo.timesCount <= 0) {
@@ -68,6 +67,7 @@ export function Timer() {
       } else {
         isWork = true;
         setIsWork(true);
+        dispatch(setStartWorkTime());
       }
     }
 
@@ -79,8 +79,6 @@ export function Timer() {
       setMenuts(('0' + menutsNum).slice(-2));
       setAddMinute(false)
     }
-
-    let startTime = new Date().getTime();
 
     let timerId = setInterval(() => {
       if (secondNum <= 0 && menutsNum <= 0) {
@@ -94,7 +92,7 @@ export function Timer() {
           isWork = false;
           setIsWork(false);
           dispatch(pushStatEndPomodor(timeWork));
-          dispatch(addWorkTime(startTime));
+          dispatch(addWorkTime());
           setTimeWork(0);
         } else {
           if (thisTodo.timesCount - 1 <= 0) setEmptyTime(true);
@@ -117,7 +115,7 @@ export function Timer() {
     }, 1000);
 
     if (pause) {
-      dispatch(addWorkTime(startTime));
+      dispatch(addWorkTime());
       clearInterval(timerId);
     };
 
@@ -126,12 +124,14 @@ export function Timer() {
       if (thisTodo.id !== 'no') {
         dispatch(decrement(thisTodo.id));
       }
+
       dispatch(addStopCount());
-      // console.log(isWork);
+
       if (isWork) {
         dispatch(pushStatEndPomodor(timeWork));
-        dispatch(addWorkTime(startTime));
+        dispatch(addWorkTime());
       }
+
       if (thisTodo.timesCount - 1 <= 0) setEmptyTime(true);
       setSecond('00');
       setMenuts('00');
@@ -165,13 +165,13 @@ export function Timer() {
   }, [isWork, stop, start]);
 
   useEffect(() => {
-    let pauseTime = 0;
-
-    if (pause) {
-      pauseTime = new Date().getTime();
-    } else if (pauseTime > 0) {
-      dispatch(addPauseTime(pauseTime))
-    }
+    setTimeout(() => {
+      if (pause) {
+        dispatch(setStartPauseTime())
+      } else {
+        dispatch(addPauseTime())
+      }
+    }, 0);
   }, [pause])
 
   return (
@@ -238,7 +238,6 @@ export function Timer() {
           {!start && isWork && pause &&
             <Btn parrentClass='timer'
               text='Сделано'
-
               mode='red'
               onClick={() => { setPause(false), setStart(true), setStop(true) }}
             />

@@ -10,7 +10,6 @@ interface IStatCard {
 
 export function StatCard({ mode, value }: IStatCard) {
 
-
   return (
     <div className={`stat-card ${mode ? 'stat-card--' + mode : ''}`}>
       <div className="stat-card__info">

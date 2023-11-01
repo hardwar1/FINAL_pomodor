@@ -10,10 +10,14 @@ export type workDay = {
 
 type initialState = {
   statistic: workDay[];
+  startPauseTime: false | number;
+  startWorkTime: false | number;
 };
 
 const initialState: initialState = {
-  statistic: [],
+  statistic: localStorage.statistic ? JSON.parse(localStorage.statistic) : [],
+  startPauseTime: false,
+  startWorkTime: false,
 };
 
 const statisticSlice = createSlice({
@@ -40,6 +44,8 @@ const statisticSlice = createSlice({
         stopCount: 0,
         timeOnPause: 0,
       });
+
+      localStorage.statistic = JSON.stringify(state.statistic);
     },
 
     addStopCount(state) {
@@ -60,38 +66,60 @@ const statisticSlice = createSlice({
         stopCount: 1,
         timeOnPause: 0,
       });
+
+      localStorage.statistic = JSON.stringify(state.statistic);
     },
 
-    addPauseTime(state, action: PayloadAction<number>) {
+    addPauseTime(state) {
       const toDay = new Date().getTime();
       const date = new Date().getDate();
 
       for (const day of state.statistic) {
-        if (new Date(day.date).getDate() === date) {
-          day.timeOnPause += toDay - action.payload;
+        if (new Date(day.date).getDate() === date && state.startPauseTime) {
+          day.timeOnPause += (toDay - state.startPauseTime) / 60000;
+          state.startPauseTime = false;
         }
       }
+
+      localStorage.statistic = JSON.stringify(state.statistic);
     },
 
-    addWorkTime(state, action: PayloadAction<number>) {
-      const toDay = new Date().getTime();
+    setStartPauseTime(state) {
+      state.startPauseTime = new Date().getTime();
+    },
+
+    setStartWorkTime(state) {
+      state.startWorkTime = new Date().getTime();
+    },
+
+    addWorkTime(state) {
+      const time = new Date().getTime();
       const date = new Date().getDate();
 
       for (const day of state.statistic) {
-        if (new Date(day.date).getDate() === date) {
-          day.workTime += toDay - action.payload;
+        if (new Date(day.date).getDate() === date && state.startWorkTime) {
+            day.workTime += (time - state.startWorkTime) / 60000;
+            state.startWorkTime = false;
         }
       }
+
+      localStorage.statistic = JSON.stringify(state.statistic);
     },
 
-    addStoradgeStatistic(state, action: PayloadAction<workDay[]>) {
-      state.statistic = action.payload;
+    resetStat(state) {
+      state.statistic = [];
+      localStorage.statistic = JSON.stringify([]);
     },
   },
-
-  
 });
 
-export const { pushStatEndPomodor, addStopCount, addPauseTime, addWorkTime, addStoradgeStatistic } =
-  statisticSlice.actions;
+export const {
+  pushStatEndPomodor,
+  addStopCount,
+  addPauseTime,
+  addWorkTime,
+  resetStat,
+  setStartPauseTime,
+  setStartWorkTime,
+} = statisticSlice.actions;
 export default statisticSlice.reducer;

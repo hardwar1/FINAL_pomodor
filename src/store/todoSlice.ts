@@ -1,32 +1,28 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-export interface todo  {
+export interface todo {
   id: string;
   text: string;
   timesCount: number;
   completed: boolean;
-};
+}
 
 type initialState = {
   todos: todo[];
   activeTaskId: string;
-  noTodo: {
-    id: 'no',
-    text: 'Выйти на крыльцо, почесать своё ...',
-    timesCount: number,
-    completed: false
-  }
+  noTodo: todo
 };
 
 const initialState: initialState = {
-  todos: [],
-  activeTaskId: '',
+  todos: localStorage.todos ? JSON.parse(localStorage.todos) : [],
+  // todos:  [],
+  activeTaskId: "",
   noTodo: {
-    id: 'no',
-    text: 'Выйти на крыльцо, почесать своё ...',
+    id: "no",
+    text: "Выйти на крыльцо, почесать своё ...",
     timesCount: 1,
-    completed: false
-  } 
+    completed: false,
+  },
 };
 
 const todoSlice = createSlice({
@@ -41,49 +37,55 @@ const todoSlice = createSlice({
         completed: false,
         timesCount: 1,
       });
+
+      localStorage.todos = JSON.stringify(state.todos);
     },
 
     resetTodo(state) {
       state.todos = [];
-    },
-
-    addStoradgeTodo(state, action: PayloadAction<todo[]>) {
-      state.todos = action.payload;
+      localStorage.todos = JSON.stringify([]);
     },
 
     increment(state, action: PayloadAction<string>) {
-      const thisTodo = state.todos.filter(item => item.id == action.payload)
-      thisTodo[0].timesCount++
+      const thisTodo = state.todos.filter((item) => item.id == action.payload);
+      thisTodo[0].timesCount++;
+
+      localStorage.todos = JSON.stringify(state.todos);
     },
 
     decrement(state, action: PayloadAction<string>) {
-      const thisTodo = state.todos.filter(item => item.id == action.payload)
-      if (thisTodo[0].timesCount > 0) thisTodo[0].timesCount--
+      const thisTodo = state.todos.filter((item) => item.id == action.payload);
+      if (thisTodo[0].timesCount > 0) thisTodo[0].timesCount--;
+
+      localStorage.todos = JSON.stringify(state.todos);
     },
 
     removeTodo(state, action: PayloadAction<string>) {
-      state.todos = state.todos.filter(item => item.id !== action.payload)
+      state.todos = state.todos.filter((item) => item.id !== action.payload);
+
+      localStorage.todos = JSON.stringify(state.todos);
     },
 
-    changeTodo(state, action: PayloadAction<{text: string, id: string}>) {
+    changeTodo(state, action: PayloadAction<{ text: string; id: string }>) {
       for (const todo of state.todos) {
         if (todo.id == action.payload.id) {
           todo.text = action.payload.text;
+
+          localStorage.todos = JSON.stringify(state.todos);
         }
       }
     },
 
     setTaskId(state, action: PayloadAction<string>) {
       state.activeTaskId = action.payload;
+      localStorage.todos = JSON.stringify(state.todos);
     },
   },
 });
 
-// экспорт экшенов
 export const {
   addTodo,
   resetTodo,
-  addStoradgeTodo,
   removeTodo,
   changeTodo,
   increment,
@@ -91,5 +93,4 @@ export const {
   setTaskId,
 } = todoSlice.actions;
 
-// этот редюсер в стор подключить
 export default todoSlice.reducer;

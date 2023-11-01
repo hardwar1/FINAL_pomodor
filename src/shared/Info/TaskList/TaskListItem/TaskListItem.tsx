@@ -34,12 +34,11 @@ export function TaskListItem({ task }: ITaskListItem) {
   }
 
   const pickTask = () => {
-    if ( task.timesCount <= 0) {
+    // if ( task.timesCount <= 0) {
 
-    } else {
+    // } else {
       dispatch(setTaskId(task.id));
-      localStorage.setItem('activeTaskId', task.id);
-    }
+    // }
   }
 
   return (

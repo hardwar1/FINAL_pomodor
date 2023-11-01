@@ -12,8 +12,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #999;
+  color: inherit;
   font-size: 24px;
+  text-transform: capitalize;
+  transition: color 0.3s;
 
   @media (max-width: 768px) {
     font-size: 16px;
@@ -21,10 +23,11 @@
 }
 
 .weekChartValue {
-  max-height: calc(100% - 51px);
+  max-height: calc(100% - 51px - 4px);
   min-height: 1%;
   position: absolute;
   bottom: 51px;
   left: 0;
   width: 100%;
+  transition: background-color 0.3s;
 }

@@ -13,7 +13,6 @@ export function WeekChoice({ week = 0, changeWeek}: IWeekChoice) {
   const [height, setHeight] = useState(0);
   const list = useRef<HTMLUListElement>(null);
 
-
   useEffect(() => {
     if (open) {
       setHeight(list.current?.clientHeight || 0);

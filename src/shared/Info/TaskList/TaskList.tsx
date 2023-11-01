@@ -19,8 +19,8 @@ export function TaskList() {
   return (
     <div className="task-list">
       <ul className="task-list__list">
-        {todos.map((task) => (
-          <TaskListItem task={task} key={task.id} />
+        {todos.length > 0 && todos.map((task) => (
+          <TaskListItem task={task} key={task.id || (()=> Math.random().toString())()} />
         ))}
       </ul>
 
