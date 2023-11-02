@@ -8,8 +8,22 @@
   align-items: center;
   gap: 9px;
   padding: 5px 0;
+  transition: color 0.3s;
 
-    @media (max-width: 768px) {
+  svg {
+    fill: #DC3E22;
+  }
+
+  &:hover,
+  &:focus {
+    color: #b7280f;
+
+    svg {
+      fill: #b7280f;
+    }
+  }
+
+  @media (max-width: 768px) {
     font-size: 0;
   }
 }

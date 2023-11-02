@@ -20,6 +20,10 @@
   @media (max-width: 768px) {
     font-size: 16px;
   }
+
+  &:hover span {
+    background-color: #EE735D !important;
+  }
 }
 
 .weekChartValue {

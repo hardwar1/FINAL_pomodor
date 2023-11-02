@@ -4,6 +4,12 @@
   height: 50px;
   background-color: #c4c4c4;
   border-radius: 50%;
+  transition: background-color 0.3s;
+
+  &:hover,
+  &:focus {
+    background-color: #899441;
+  }
 
   &::after,
   &::before {

@@ -8,6 +8,8 @@ import { TrashIcon } from '../../../../icons/Trash';
 import { useAppDispatch, useAppSelector } from '../../../../../store/hooks/redux';
 import './taskmenu.scss';
 import { decrement, increment, removeTodo } from '../../../../../store/todoSlice';
+import { Btn } from '../../../../Btn';
+import { EscapeIcon } from '../../../../icons/escapeIcon';
 
 interface ITaskMenu {
   taskId: string;
@@ -15,10 +17,11 @@ interface ITaskMenu {
 }
 
 export function TaskMenu({ taskId, setChangeNameFn }: ITaskMenu) {
+  const [active, setActive] = useState(false);
   const refDropMenu = useRef<HTMLDivElement>(null);
   const [showMenu, setShowMenu] = useState(false);
   const dispatch = useAppDispatch();
-  const { todos } = useAppSelector(state => state.todoReducer);
+  // const { todos } = useAppSelector(state => state.todoReducer);
 
   const handleDel = () => {
     dispatch(removeTodo(taskId))
@@ -56,7 +59,7 @@ export function TaskMenu({ taskId, setChangeNameFn }: ITaskMenu) {
         <DotsIcon />
       </button>
 
-      {showMenu &&
+      {showMenu && <>
         <div className="task-menu__hide-box">
           <ul className="task-menu__list">
             <li className="task-menu__item">
@@ -78,13 +81,35 @@ export function TaskMenu({ taskId, setChangeNameFn }: ITaskMenu) {
             </li>
 
             <li className="task-menu__item">
-              <button className="task-menu__button" onClick={handleDel}>
+              <button className="task-menu__button" onClick={() => setActive(!active)}>
                 <TrashIcon /> Удалить
               </button>
             </li>
           </ul>
         </div>
-      }
+
+        <div className={`warning ${active ? 'active' : ''}`} onClick={() => setActive(false)}>
+          <div className="warning__inner" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="warning__closed-btn"
+              aria-label="закрыть окошко"
+              onClick={() => setActive(false)}
+            >
+              <EscapeIcon />
+            </button>
+
+            <h3 className="warning__title">
+              Удалить задачу?
+            </h3>
+
+            <Btn text="Удалить" mode="red" onClick={handleDel} />
+
+            <button className="warning__btn" onClick={() => setActive(false)}>
+              Отмена
+            </button>
+          </div>
+        </div>
+      </>}
     </div>
   );
 }

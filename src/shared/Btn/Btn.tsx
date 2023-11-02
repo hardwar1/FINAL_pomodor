@@ -9,7 +9,7 @@ interface IBtn {
   type?: "button" | "submit" | "reset" | undefined; 
 }
 
-export function Btn({ parrentClass, onClick, text, ariaText, mode, type }: IBtn) {
+export function Btn({ parrentClass, onClick, text, ariaText, mode, type}: IBtn) {
   return (
     <button
       className={`${parrentClass ? parrentClass + '__btn' : ''} btn ${mode ? 'btn--' + mode : ''}`}

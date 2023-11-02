@@ -6,8 +6,16 @@
   color: var(--white, #fff);
   text-align: center;
   background-color: #a8b64f;
-  
-  transition: background-color 0.3, border-color 0.3;
+
+  transition:
+    background-color 0.3s,
+    border-color 0.3s,
+    color 0.3s;
+
+  &:hover,
+  &:focus {
+    background-color: #899441;
+  }
 
   &--gray {
     background-color: transparent;
@@ -16,6 +24,13 @@
   }
 
   &--red {
-    background-color: #DC3E22;
+    border: 2px solid #dc3e22;
+    color: #dc3e22;
+    background-color: transparent;
+    &:hover,
+    &:focus {
+      background-color: #dc3e22;
+      color: white;
+    }
   }
 }
