@@ -2,8 +2,8 @@
 import { useEffect, useState } from 'react';
 import { workDay } from '../../../store/statisticSlice';
 import { WeekChartItem } from './WeekChartItem';
-import styles from './weekchart.module.scss';
 import { useAppSelector } from '../../../store/hooks/redux';
+import styles from './weekchart.module.scss';
 
 interface IWeekChart {
   // renderWeek: workDay[];
@@ -15,6 +15,7 @@ interface ITimesChartValue {
   hour: number;
   minute: string;
   maxValue: number;
+  persent: number;
 }
 
 const weekDays = [
@@ -49,21 +50,25 @@ export function WeekChart({ handleClickThisDay, activeDay = 0 }: IWeekChart) {
         maxValue: maxValue,
         hour: calcAllTime(0.2, maxValue),
         minute: calcMinute(0.2, maxValue),
+        persent: 20,
       },
       {
         maxValue: maxValue,
         hour: calcAllTime(0.4, maxValue),
         minute: calcMinute(0.4, maxValue),
+        persent: 40,
       },
       {
         maxValue: maxValue,
         hour: calcAllTime(0.6, maxValue),
         minute: calcMinute(0.6, maxValue),
+        persent: 60,
       },
       {
         maxValue: maxValue,
         hour: calcAllTime(0.8, maxValue),
         minute: calcMinute(0.8, maxValue),
+        persent: 80,
       },
     ])
   }, [renderWeek]);
@@ -125,38 +130,19 @@ export function WeekChart({ handleClickThisDay, activeDay = 0 }: IWeekChart) {
 
       <div className={styles.weekChartTopBg}>
         <div className={styles.weekChartRelative}>
-          <span className={`${styles.weekChartPersent} ${styles.weekChartPersent20}`}>
-            {chartValues[0]?.hour > 0 &&
-              chartValues[0].hour + 'ч'
-            }
+          {chartValues.length > 0 && chartValues.map((chartValue) => (
+            <span
+              className={`${styles.weekChartPersent} ${styles['weekChartPersent' + chartValue.persent]}`}
+              key={(() => Math.random())()}
+            >
+              {chartValue.hour > 0 &&
+                chartValue.hour + 'ч'
+              }
 
-            {chartValues[0]?.minute}
-            мин
-          </span>
-          <span className={`${styles.weekChartPersent} ${styles.weekChartPersent40}`}>
-            {chartValues[1]?.hour > 0 &&
-              chartValues[1].hour + 'ч'
-            }
-
-            {chartValues[1]?.minute}
-            мин
-          </span>
-          <span className={`${styles.weekChartPersent} ${styles.weekChartPersent60}`}>
-            {chartValues[2]?.hour > 0 &&
-              chartValues[2].hour + 'ч'
-            }
-
-            {chartValues[2]?.minute}
-            мин
-          </span>
-          <span className={`${styles.weekChartPersent} ${styles.weekChartPersent80}`}>
-            {chartValues[3]?.hour > 0 &&
-              chartValues[3].hour + 'ч'
-            }
-
-            {chartValues[3]?.minute}
-            мин
-          </span>
+              {chartValue.minute}
+              мин
+            </span>
+          ))}
         </div>
       </div>
     </div>

@@ -11,7 +11,6 @@ interface IWeekChartItem {
 
 export function WeekChartItem({ day, active, value, getTime, handleClickThisDay }: IWeekChartItem) {
   
-
   return (
     <li className={styles.weekChartItem} key={(() => Math.random().toString())()}>
       <button

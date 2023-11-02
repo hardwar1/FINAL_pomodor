@@ -28,6 +28,7 @@ export function Timer() {
   const dispatch = useAppDispatch();
 
   const [filterTodo] = todos.filter(todo => todo.id == activeTaskId);
+  
   let thisTodo: todo =
     filterTodo?.id ? filterTodo
       : todos[0] ? todos[0] : noTodo;
@@ -121,6 +122,7 @@ export function Timer() {
 
     if (stop) {
       clearInterval(timerId);
+
       if (thisTodo.id !== 'no') {
         dispatch(decrement(thisTodo.id));
       }
@@ -133,6 +135,7 @@ export function Timer() {
       }
 
       if (thisTodo.timesCount - 1 <= 0) setEmptyTime(true);
+
       setSecond('00');
       setMenuts('00');
       setStart(false);

@@ -12,6 +12,7 @@ export function WeekChoice({ week = 0, changeWeek}: IWeekChoice) {
   const [open, setOpen] = useState(false);
   const [height, setHeight] = useState(0);
   const list = useRef<HTMLUListElement>(null);
+  const refDropMenu = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     if (open) {
@@ -21,8 +22,22 @@ export function WeekChoice({ week = 0, changeWeek}: IWeekChoice) {
     }
   }, [open])
 
+  useEffect(() => {
+    function handleClick(event: MouseEvent) {
+      if (event.target instanceof Node &&
+        !refDropMenu.current?.contains(event.target)) {
+          setOpen(false)
+      }
+    }
+
+    document.addEventListener('click', handleClick);
+    return () => {
+      document.removeEventListener('click', handleClick);
+    }
+  }, []);
+
   return (
-    <div className={styles.weekChoice}>
+    <div className={styles.weekChoice} ref={refDropMenu}>
       <button className={styles.weekChoiceButton}
         onClick={() => setOpen(!open)}
       >

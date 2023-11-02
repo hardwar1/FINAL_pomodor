@@ -1,5 +1,5 @@
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { DotsIcon } from '../../../../icons/Dots';
 import { MinusIcon } from '../../../../icons/Minus';
 import { PencilIcon } from '../../../../icons/Pencil';
@@ -11,10 +11,11 @@ import { decrement, increment, removeTodo } from '../../../../../store/todoSlice
 
 interface ITaskMenu {
   taskId: string;
-  setChangeNameFn: ()=> void;
+  setChangeNameFn: () => void;
 }
 
 export function TaskMenu({ taskId, setChangeNameFn }: ITaskMenu) {
+  const refDropMenu = useRef<HTMLDivElement>(null);
   const [showMenu, setShowMenu] = useState(false);
   const dispatch = useAppDispatch();
   const { todos } = useAppSelector(state => state.todoReducer);
@@ -31,8 +32,22 @@ export function TaskMenu({ taskId, setChangeNameFn }: ITaskMenu) {
     dispatch(decrement(taskId));
   }
 
+  useEffect(() => {
+    function handleClick(event: MouseEvent) {
+      if (event.target instanceof Node &&
+        !refDropMenu.current?.contains(event.target)) {
+        setShowMenu(false)
+      }
+    }
+
+    document.addEventListener('click', handleClick);
+    return () => {
+      document.removeEventListener('click', handleClick);
+    }
+  }, []);
+
   return (
-    <div className="task-menu">
+    <div className="task-menu" ref={refDropMenu}>
       <button
         className="task-menu__open-btn"
         aria-label='меню задачи'
@@ -58,7 +73,7 @@ export function TaskMenu({ taskId, setChangeNameFn }: ITaskMenu) {
 
             <li className="task-menu__item">
               <button className="task-menu__button" onClick={setChangeNameFn}>
-                <PencilIcon /> Редактировать 
+                <PencilIcon /> Редактировать
               </button>
             </li>
 
