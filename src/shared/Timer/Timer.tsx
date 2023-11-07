@@ -28,8 +28,8 @@ export function Timer() {
   const dispatch = useAppDispatch();
 
   const [filterTodo] = todos.filter(todo => todo.id == activeTaskId);
-  
-  let thisTodo: todo =
+
+  const thisTodo: todo =
     filterTodo?.id ? filterTodo
       : todos[0] ? todos[0] : noTodo;
 
@@ -81,7 +81,7 @@ export function Timer() {
       setAddMinute(false)
     }
 
-    let timerId = setInterval(() => {
+    const timerId = setInterval(() => {
       if (secondNum <= 0 && menutsNum <= 0) {
         if (thisTodo.id !== 'no') {
           dispatch(decrement(thisTodo.id));
@@ -118,7 +118,7 @@ export function Timer() {
     if (pause) {
       dispatch(addWorkTime());
       clearInterval(timerId);
-    };
+    }
 
     if (stop) {
       clearInterval(timerId);
@@ -140,7 +140,7 @@ export function Timer() {
       setMenuts('00');
       setStart(false);
       setIsWork(true);
-    };
+    }
 
     return () => clearInterval(timerId);
   }, [start, stop, addMinute, pause, breakNow]);
@@ -207,7 +207,7 @@ export function Timer() {
               parrentClass='timer'
               text='Старт'
               type='button'
-              onClick={() => { setStop(false), setPause(false), setStart(true), setBreakNow(false) }}
+              onClick={() => { setPause(false), setStop(false),  setStart(true), setBreakNow(false) }}
             />
           }
 
@@ -225,7 +225,7 @@ export function Timer() {
               parrentClass='timer'
               text='Продолжить'
               type='button'
-              onClick={() => { setStop(false), setBreakNow(!isWork), setPause(false), setStart(true) }}
+              onClick={() => { setPause(false), setStop(false), setBreakNow(!isWork),  setStart(true) }}
             />
           }
 

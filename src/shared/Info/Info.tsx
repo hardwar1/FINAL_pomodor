@@ -10,10 +10,6 @@ const listRule = [
   'Продолжайте работать «помидор» за «помидором», пока задача не будут выполнена. Каждые 4 «помидора» делайте длинный перерыв (15-30 минут).',
 ];
 
-const random = () => 
-  (Math.random()).toString().slice(2);
-
-
 export function Info() {
   return (
     <div className="info">

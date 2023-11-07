@@ -1,15 +1,15 @@
 
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { DotsIcon } from '../../../../icons/Dots';
 import { MinusIcon } from '../../../../icons/Minus';
 import { PencilIcon } from '../../../../icons/Pencil';
 import { PlusIcon } from '../../../../icons/Plus';
 import { TrashIcon } from '../../../../icons/Trash';
-import { useAppDispatch, useAppSelector } from '../../../../../store/hooks/redux';
-import './taskmenu.scss';
+import { useAppDispatch } from '../../../../../store/hooks/redux';
 import { decrement, increment, removeTodo } from '../../../../../store/todoSlice';
 import { Btn } from '../../../../Btn';
-import { EscapeIcon } from '../../../../icons/escapeIcon';
+import { EscapeIcon } from '../../../../icons/EscapeIcon';
+import './taskmenu.scss';
 
 interface ITaskMenu {
   taskId: string;
@@ -44,6 +44,7 @@ export function TaskMenu({ taskId, setChangeNameFn }: ITaskMenu) {
     }
 
     document.addEventListener('click', handleClick);
+
     return () => {
       document.removeEventListener('click', handleClick);
     }

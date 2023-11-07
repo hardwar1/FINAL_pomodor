@@ -1,11 +1,9 @@
-import { FormEvent, useRef, useState } from 'react';
+import { FormEvent, useState } from 'react';
 import { TaskMenu } from './TaskMenu';
-import { useAppDispatch } from '../../../../store/hooks/redux';
-import { addTodo, changeTodo, setTaskId } from '../../../../store/todoSlice';
+import { useAppDispatch, useAppSelector } from '../../../../store/hooks/redux';
+import { changeTodo, setTaskId } from '../../../../store/todoSlice';
 
 import './tasklistitem.css';
-
-
 interface ITaskListItem {
   task: {
     id: string;
@@ -15,8 +13,13 @@ interface ITaskListItem {
 }
 
 export function TaskListItem({ task }: ITaskListItem) {
+  const [active, setActive] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(false);
   const [changeName, setChangeName] = useState(false);
   const [message, setMessage] = useState(task.text);
+  const { startWorkTime } = useAppSelector(state => state.statisticReducer);
+  const { startPauseTime } = useAppSelector(state => state.statisticReducer);
+
   const dispatch = useAppDispatch();
   // const inputRef = useRef<HTMLInputElement>();
 
@@ -34,16 +37,24 @@ export function TaskListItem({ task }: ITaskListItem) {
   }
 
   const pickTask = () => {
-    // if ( task.timesCount <= 0) {
-
-    // } else {
+    if (!startWorkTime && !startPauseTime) {
       dispatch(setTaskId(task.id));
-    // }
+
+    }
+    else {
+      setErrorMessage(true);
+      setTimeout(() => {
+        setActive(true);
+      }, 0);
+    }
   }
 
   return (
     <li className="task-list__item" key={task.id}>
-      <span className="task-list__time-count">{task.timesCount}</span>
+      <span className="task-list__time-count">
+        {task.timesCount}
+      </span>
+
       {!changeName &&
         <span >{task.text}</span>
       }
@@ -54,7 +65,6 @@ export function TaskListItem({ task }: ITaskListItem) {
             type="text"
             value={message} onChange={(e) => setMessage(e.target.value)}
             aria-label='Название задачи'
-          // ref={inputRef}
           />
         </form>
       }
@@ -66,6 +76,37 @@ export function TaskListItem({ task }: ITaskListItem) {
       ></button>
 
       <TaskMenu taskId={task.id} setChangeNameFn={setChangeNameFn} />
+
+      {errorMessage &&
+        <div
+          className={`warning ${active ? 'active' : ''}`}
+          onClick={() => {
+            setActive(false),
+              setTimeout(() => {
+
+                setErrorMessage(false)
+              }, 201);
+          }}
+        >
+          <div className="warning__inner" onClick={(e) => e.stopPropagation()}>
+            <button
+              className="warning__closed-btn"
+              aria-label="закрыть окошко"
+              onClick={() => {
+                setActive(false),
+                  setTimeout(() => {
+
+                    setErrorMessage(false)
+                  }, 201);
+              }}
+            ></button>
+              <div className='warning__title'>
+                опомнись, сейчас время поработать, а не кликать !
+              </div>
+          </div>
+        </div>
+
+      }
     </li>
   );
 }

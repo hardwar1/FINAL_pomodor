@@ -1,6 +1,5 @@
 
 import { useEffect, useState } from 'react';
-import { workDay } from '../../../store/statisticSlice';
 import { WeekChartItem } from './WeekChartItem';
 import { useAppSelector } from '../../../store/hooks/redux';
 import styles from './weekchart.module.scss';
