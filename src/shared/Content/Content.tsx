@@ -24,7 +24,7 @@ export function Content() {
               <Statistic />
             } />
 
-          <Route path="*" element={<Navigate to={'/'} replace />} />
+          <Route path="*" element={<Navigate to={'/Tomato-timer/'} replace />} />
         </Routes>
       </Container>
 
