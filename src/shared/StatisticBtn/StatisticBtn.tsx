@@ -4,7 +4,7 @@ import './statistic.scss';
 
 export function StatisticBtn() {
   return (
-    <Link to='/statistic' className="statisticBtn">
+    <Link to='/Tomato-timer/statistic' className="statisticBtn">
       <StatIcon />
 
       Статистика
