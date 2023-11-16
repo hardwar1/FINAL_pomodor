@@ -11,6 +11,7 @@ const listRule = [
 ];
 
 export function Info() {
+
   return (
     <div className="info">
 

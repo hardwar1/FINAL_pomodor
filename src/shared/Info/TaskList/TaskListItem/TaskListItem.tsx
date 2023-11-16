@@ -4,6 +4,7 @@ import { useAppDispatch, useAppSelector } from '../../../../store/hooks/redux';
 import { changeTodo, setTaskId } from '../../../../store/todoSlice';
 
 import './tasklistitem.css';
+
 interface ITaskListItem {
   task: {
     id: string;
@@ -105,7 +106,6 @@ export function TaskListItem({ task }: ITaskListItem) {
               </div>
           </div>
         </div>
-
       }
     </li>
   );

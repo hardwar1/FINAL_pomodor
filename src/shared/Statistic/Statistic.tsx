@@ -32,7 +32,7 @@ export function Statistic() {
     let nowWeekDay = new Date().getDay();
     nowWeekDay = (nowWeekDay != 0 ? nowWeekDay : 7) + 14;
 
-    let result: workDay[] = [];
+    const result: workDay[] = [];
 
     for (let weekDay = 1; weekDay <= 21; weekDay++) {
       const tempDate = new Date(nowDate + (weekDay - nowWeekDay) * 24 * 60 * 60 * 1000);

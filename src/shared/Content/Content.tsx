@@ -21,8 +21,8 @@ export function Content() {
           </Route>
 
           <Route path="statistic" element={
-            <Statistic />
-          } />
+              <Statistic />
+            } />
 
           <Route path="*" element={<Navigate to={'/'} replace />} />
         </Routes>
