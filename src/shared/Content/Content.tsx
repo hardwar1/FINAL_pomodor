@@ -11,7 +11,7 @@ export function Content() {
     <main className="main">
       <Container>
         <Routes>
-          <Route path="/" element={
+          <Route path="/Tomato-timer/" element={
             <div className="main__content">
               <Info />
 
@@ -20,7 +20,7 @@ export function Content() {
           }>
           </Route>
 
-          <Route path="statistic" element={
+          <Route path="/Tomato-timer/statistic" element={
               <Statistic />
             } />
 
